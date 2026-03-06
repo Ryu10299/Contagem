@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Protocolo Ruina</title>
+
+<style>
+
+html,body{
+margin:0;
+padding:0;
+height:100%;
+background:black;
+font-family:monospace;
+color:#ff2a2a;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+overflow:hidden;
+}
+
+/* CONTAINER CENTRAL */
+
+.container{
+position:relative;
+z-index:2;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:20px;
+}
+
+/* SIMBOLO */
+
+#simbolo{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(2);
+opacity:0.35;
+filter:brightness(1.4);
+z-index:1;
+}
+
+/* CONTADOR PRINCIPAL */
+
+#contador{
+font-size:70px;
+text-shadow:
+0 0 5px red,
+0 0 20px red,
+0 0 40px red;
+}
+
+/* FRASE */
+
+.frase{
+font-size:28px;
+max-width:90%;
+text-shadow:
+0 0 5px red,
+0 0 15px red;
+}
+
+/* CONTADOR 2 */
+
+#contador2{
+font-size:45px;
+text-shadow:
+0 0 5px red,
+0 0 20px red,
+0 0 40px red;
+}
+
+/* TEXTO AGENTES */
+
+.revelando{
+font-size:25px;
+text-shadow:
+0 0 5px red,
+0 0 15px red;
+}
+
+/* GLITCH */
+
+.glitch{
+animation:glitch 2s infinite;
+}
+
+@keyframes glitch{
+0%{transform:translate(0)}
+20%{transform:translate(-2px,2px)}
+40%{transform:translate(-2px,-2px)}
+60%{transform:translate(2px,2px)}
+80%{transform:translate(2px,-2px)}
+100%{transform:translate(0)}
+}
+
+/* EVENTO */
+
+#evento{
+display:none;
+flex-direction:column;
+align-items:center;
+gap:10px;
+}
+
+#evento a{
+font-size:50px;
+color:red;
+text-decoration:none;
+text-shadow:
+0 0 10px red,
+0 0 30px red,
+0 0 60px red;
+}
+
+#evento p{
+font-size:22px;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+#contador{
+font-size:38px;
+}
+
+#contador2{
+font-size:26px;
+}
+
+.frase{
+font-size:20px;
+}
+
+.revelando{
+font-size:18px;
+}
+
+#evento a{
+font-size:28px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<img id="simbolo" src="simbolo.png">
+
+<div class="container">
+
+<div id="contador"></div>
+
+<div class="frase glitch">
+O Verissimo ainda não chegou, espere um pouco
+</div>
+
+<div id="contador2"></div>
+
+<div class="revelando glitch">
+Revelando agentes
+</div>
+
+<div id="evento">
+
+<a href="https://youtube.com/@ryu.1z?si=TVo3RlAkvhfgJfFb">
+Protocolo : Ruina
+</a>
+
+<p>Vamos resolver esse caso juntos</p>
+
+</div>
+
+</div>
+
+<script>
+
+const dataPrincipal = new Date("May 3, 2026 14:00:00").getTime()
+const dataAgentes = new Date("March 14, 2026 18:00:00").getTime()
+
+const contador = document.getElementById("contador")
+const contador2 = document.getElementById("contador2")
+const evento = document.getElementById("evento")
+const simbolo = document.getElementById("simbolo")
+
+let angulo = 0
+
+function atualizar(){
+
+const agora = new Date().getTime()
+
+const dif1 = dataPrincipal - agora
+const dif2 = dataAgentes - agora
+
+/* CONTADOR PRINCIPAL */
+
+const d = Math.floor(dif1/(1000*60*60*24))
+const h = Math.floor((dif1%(1000*60*60*24))/(1000*60*60))
+const m = Math.floor((dif1%(1000*60*60))/(1000*60))
+const s = Math.floor((dif1%(1000*60))/1000)
+
+contador.innerHTML = d+"d "+h+"h "+m+"m "+s+"s"
+
+/* CONTADOR 2 */
+
+const d2 = Math.floor(dif2/(1000*60*60*24))
+const h2 = Math.floor((dif2%(1000*60*60*24))/(1000*60*60))
+const m2 = Math.floor((dif2%(1000*60*60))/(1000*60))
+const s2 = Math.floor((dif2%(1000*60))/1000)
+
+contador2.innerHTML = d2+"d "+h2+"h "+m2+"m "+s2+"s"
+
+/* VELOCIDADE DA ROTAÇÃO */
+
+const inicio = new Date("March 6, 2026").getTime()
+
+const dias = Math.floor((agora - inicio)/(1000*60*60*24))
+
+const velocidade = 1 + Math.floor(dias/5)
+
+angulo += 0.05 * velocidade
+
+simbolo.style.transform =
+"translate(-50%,-50%) scale(2) rotate("+angulo+"deg)"
+
+/* EVENTO FINAL */
+
+if(dif1 <= 15*60*1000){
+
+contador.style.display="none"
+evento.style.display="flex"
+
+}
+
+}
+
+setInterval(atualizar,50)
+
+</script>
+
+</body>
+</html>
