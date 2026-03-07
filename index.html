@@ -17,7 +17,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 flex-direction:column;
-font-family: "Courier New", monospace;
+font-family:"Courier New", monospace;
 color:#6b0000;
 overflow:hidden;
 }
@@ -28,21 +28,27 @@ z-index:2;
 }
 
 #contador{
-font-size:60px;
-margin-bottom:20px;
-color:#7a0000;
+font-size:30px;
+margin-bottom:15px;
+color:#6b0000;
 }
 
 #contador2{
-font-size:32px;
-margin-top:30px;
-color:#7a0000;
+font-size:16px;
+margin-top:60px;
+color:#6b0000;
 }
 
 .frase{
-font-size:22px;
+font-size:11px;
 margin-top:10px;
-color:#7a0000;
+color:#6b0000;
+}
+
+.frase2{
+font-size:11px;
+margin-top:20px;
+color:#6b0000;
 }
 
 .piscando{
@@ -70,8 +76,8 @@ to{transform:rotate(360deg)}
 
 .fraseRicardo{
 position:absolute;
-font-size:20px;
-color:#7a0000;
+font-size:14px;
+color:#6b0000;
 pointer-events:none;
 }
 
@@ -80,10 +86,10 @@ position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:36px;
+font-size:24px;
 display:none;
-color:#006400;
-font-family:Courier New, monospace;
+color:#004b00;
+font-family:"Courier New", monospace;
 }
 
 </style>
@@ -103,7 +109,7 @@ O Verissimo ainda não chegou, espere um pouco
 
 <div id="contador2"></div>
 
-<div class="frase piscando">
+<div class="frase2 piscando">
 Revelando Agentes
 </div>
 
@@ -145,7 +151,6 @@ contador2.innerHTML = d2+"d "+h2+"h "+m2+"m "+s2+"s"
 setInterval(atualizar,1000)
 
 
-// FRASES DO RICARDO
 
 const frases = [
 "O que era aquilo?",
@@ -159,19 +164,17 @@ let index=0
 
 function spawnFrase(){
 
-let frase = document.createElement("div")
+let frase=document.createElement("div")
 frase.className="fraseRicardo"
-frase.innerText = frases[index]
-
-// limita posição para não aparecer no centro
+frase.innerText=frases[index]
 
 let x
 let y
 
 do{
 
-x = Math.random()*window.innerWidth
-y = Math.random()*window.innerHeight
+x=Math.random()*window.innerWidth
+y=Math.random()*window.innerHeight
 
 }while(
 x > window.innerWidth*0.3 &&
@@ -180,8 +183,8 @@ y > window.innerHeight*0.3 &&
 y < window.innerHeight*0.7
 )
 
-frase.style.left = x+"px"
-frase.style.top = y+"px"
+frase.style.left=x+"px"
+frase.style.top=y+"px"
 
 document.body.appendChild(frase)
 
@@ -191,8 +194,8 @@ frase.remove()
 
 index++
 
-if(index >= frases.length){
-index = 0
+if(index>=frases.length){
+index=0
 }
 
 }
@@ -200,7 +203,6 @@ index = 0
 setInterval(spawnFrase,15000)
 
 
-// EVENTO HORA CHEIA
 
 let ultimaHora = new Date().getHours()
 
@@ -209,11 +211,11 @@ setInterval(()=>{
 let agora = new Date()
 
 if(
-agora.getHours() != ultimaHora &&
+agora.getHours()!=ultimaHora &&
 agora.getMinutes()==0
 ){
 
-ultimaHora = agora.getHours()
+ultimaHora=agora.getHours()
 
 document.querySelector(".container").style.display="none"
 simbolo.style.display="none"
