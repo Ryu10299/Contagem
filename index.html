@@ -2,149 +2,98 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Protocolo Ruina</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Protocolo : Ruína</title>
 
 <style>
 
-html,body{
-margin:0;
-padding:0;
-height:100%;
+body{
 background:black;
-font-family:monospace;
-color:#ff2a2a;
+margin:0;
+overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
-text-align:center;
-overflow:hidden;
+height:100vh;
+flex-direction:column;
+font-family:Courier New, monospace;
 }
-
-/* CONTAINER CENTRAL */
 
 .container{
-position:relative;
+text-align:center;
 z-index:2;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-gap:20px;
 }
 
-/* SIMBOLO */
+.neonRed{
+color:#8b0000;
+text-shadow:
+0 0 5px #ff0000,
+0 0 10px #ff0000,
+0 0 20px #ff0000,
+0 0 40px #ff0000;
+}
+
+.neonGreen{
+color:#006400;
+text-shadow:
+0 0 5px #00ff00,
+0 0 10px #00ff00,
+0 0 20px #00ff00,
+0 0 40px #00ff00;
+}
+
+#contador{
+font-size:60px;
+margin-bottom:20px;
+}
+
+#contador2{
+font-size:32px;
+margin-top:20px;
+}
+
+.frasePiscando{
+font-size:24px;
+margin-top:10px;
+animation:piscando 5s infinite;
+}
+
+@keyframes piscando{
+0%{opacity:1}
+50%{opacity:0}
+100%{opacity:1}
+}
 
 #simbolo{
+position:absolute;
+width:300px;
+opacity:0.4;
+animation:girar 60s linear infinite;
+filter:brightness(130%);
+}
+
+@keyframes girar{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+
+.fraseRicardo{
+position:absolute;
+font-size:22px;
+color:#8b0000;
+text-shadow:0 0 10px red;
+pointer-events:none;
+}
+
+#eventoHora{
 position:fixed;
 top:50%;
 left:50%;
-transform:translate(-50%,-50%) scale(2);
-opacity:0.35;
-filter:brightness(1.4);
-z-index:1;
-}
-
-/* CONTADOR PRINCIPAL */
-
-#contador{
-font-size:70px;
-text-shadow:
-0 0 5px red,
-0 0 20px red,
-0 0 40px red;
-}
-
-/* FRASE */
-
-.frase{
-font-size:28px;
-max-width:90%;
-text-shadow:
-0 0 5px red,
-0 0 15px red;
-}
-
-/* CONTADOR 2 */
-
-#contador2{
-font-size:45px;
-text-shadow:
-0 0 5px red,
-0 0 20px red,
-0 0 40px red;
-}
-
-/* TEXTO AGENTES */
-
-.revelando{
-font-size:25px;
-text-shadow:
-0 0 5px red,
-0 0 15px red;
-}
-
-/* GLITCH */
-
-.glitch{
-animation:glitch 2s infinite;
-}
-
-@keyframes glitch{
-0%{transform:translate(0)}
-20%{transform:translate(-2px,2px)}
-40%{transform:translate(-2px,-2px)}
-60%{transform:translate(2px,2px)}
-80%{transform:translate(2px,-2px)}
-100%{transform:translate(0)}
-}
-
-/* EVENTO */
-
-#evento{
+transform:translate(-50%,-50%);
+font-size:40px;
 display:none;
-flex-direction:column;
-align-items:center;
-gap:10px;
-}
-
-#evento a{
-font-size:50px;
-color:red;
-text-decoration:none;
-text-shadow:
-0 0 10px red,
-0 0 30px red,
-0 0 60px red;
-}
-
-#evento p{
-font-size:22px;
-}
-
-/* MOBILE */
-
-@media(max-width:700px){
-
-#contador{
-font-size:38px;
-}
-
-#contador2{
-font-size:26px;
-}
-
-.frase{
-font-size:20px;
-}
-
-.revelando{
-font-size:18px;
-}
-
-#evento a{
-font-size:28px;
-}
-
+text-align:center;
 }
 
 </style>
@@ -156,92 +105,135 @@ font-size:28px;
 
 <div class="container">
 
-<div id="contador"></div>
+<div id="contador" class="neonRed"></div>
 
-<div class="frase glitch">
+<div class="frasePiscando neonRed">
 O Verissimo ainda não chegou, espere um pouco
 </div>
 
-<div id="contador2"></div>
+<div id="contador2" class="neonRed"></div>
 
-<div class="revelando glitch">
-Revelando agentes
+<div class="frasePiscando neonRed">
+Revelando Agentes
 </div>
-
-<div id="evento">
-
-<a href="https://youtube.com/@ryu.1z?si=TVo3RlAkvhfgJfFb">
-Protocolo : Ruina
-</a>
-
-<p>Vamos resolver esse caso juntos</p>
 
 </div>
 
+<div id="eventoHora" class="neonGreen">
+Ele trouxe o Outro Lado pra cá
 </div>
 
 <script>
 
-const dataPrincipal = new Date("May 3, 2026 14:00:00").getTime()
+// DATA DO RPG
+const dataRPG = new Date("May 3, 2026 14:00:00").getTime()
+
+// DATA AGENTES
 const dataAgentes = new Date("March 14, 2026 18:00:00").getTime()
 
-const contador = document.getElementById("contador")
-const contador2 = document.getElementById("contador2")
-const evento = document.getElementById("evento")
-const simbolo = document.getElementById("simbolo")
+function atualizarContador(){
 
-let angulo = 0
+let agora = new Date().getTime()
 
-function atualizar(){
+let distancia = dataRPG - agora
 
-const agora = new Date().getTime()
+let dias = Math.floor(distancia/(1000*60*60*24))
+let horas = Math.floor((distancia%(1000*60*60*24))/(1000*60*60))
+let minutos = Math.floor((distancia%(1000*60*60))/(1000*60))
+let segundos = Math.floor((distancia%(1000*60))/1000)
 
-const dif1 = dataPrincipal - agora
-const dif2 = dataAgentes - agora
+document.getElementById("contador").innerHTML =
+dias+"d "+horas+"h "+minutos+"m "+segundos+"s"
 
-/* CONTADOR PRINCIPAL */
+let dist2 = dataAgentes - agora
 
-const d = Math.floor(dif1/(1000*60*60*24))
-const h = Math.floor((dif1%(1000*60*60*24))/(1000*60*60))
-const m = Math.floor((dif1%(1000*60*60))/(1000*60))
-const s = Math.floor((dif1%(1000*60))/1000)
+let dias2 = Math.floor(dist2/(1000*60*60*24))
+let horas2 = Math.floor((dist2%(1000*60*60*24))/(1000*60*60))
+let minutos2 = Math.floor((dist2%(1000*60*60))/(1000*60))
+let segundos2 = Math.floor((dist2%(1000*60))/1000)
 
-contador.innerHTML = d+"d "+h+"h "+m+"m "+s+"s"
-
-/* CONTADOR 2 */
-
-const d2 = Math.floor(dif2/(1000*60*60*24))
-const h2 = Math.floor((dif2%(1000*60*60*24))/(1000*60*60))
-const m2 = Math.floor((dif2%(1000*60*60))/(1000*60))
-const s2 = Math.floor((dif2%(1000*60))/1000)
-
-contador2.innerHTML = d2+"d "+h2+"h "+m2+"m "+s2+"s"
-
-/* VELOCIDADE DA ROTAÇÃO */
-
-const inicio = new Date("March 6, 2026").getTime()
-
-const dias = Math.floor((agora - inicio)/(1000*60*60*24))
-
-const velocidade = 1 + Math.floor(dias/5)
-
-angulo += 0.05 * velocidade
-
-simbolo.style.transform =
-"translate(-50%,-50%) scale(2) rotate("+angulo+"deg)"
-
-/* EVENTO FINAL */
-
-if(dif1 <= 15*60*1000){
-
-contador.style.display="none"
-evento.style.display="flex"
+document.getElementById("contador2").innerHTML =
+dias2+"d "+horas2+"h "+minutos2+"m "+segundos2+"s"
 
 }
 
+setInterval(atualizarContador,1000)
+
+
+// FRASES DO RICARDO
+
+const frases = [
+"O que era aquilo?",
+"Você ta ai Mathias ?",
+"O que ele faz aqui ?",
+"Que porra é aquela",
+"Vamos mais a fundo cara"
+]
+
+let index=0
+
+function spawnFrase(){
+
+let frase=document.createElement("div")
+frase.className="fraseRicardo"
+frase.innerText=frases[index]
+
+let x=Math.random()*window.innerWidth
+let y=Math.random()*window.innerHeight
+
+if(y>window.innerHeight/2-150 && y<window.innerHeight/2+150){
+y+=200
 }
 
-setInterval(atualizar,50)
+frase.style.left=x+"px"
+frase.style.top=y+"px"
+
+document.body.appendChild(frase)
+
+setTimeout(()=>{
+frase.remove()
+},1500)
+
+index++
+if(index>=frases.length){index=0}
+
+}
+
+setInterval(spawnFrase,15000)
+
+
+// EVENTO HORA CHEIA
+
+let ultimaHora = new Date().getHours()
+
+setInterval(()=>{
+
+let agora = new Date()
+let hora = agora.getHours()
+
+if(hora != ultimaHora && agora.getMinutes()==0){
+
+ultimaHora=hora
+
+document.querySelector(".container").style.display="none"
+document.getElementById("simbolo").style.display="none"
+
+let evento=document.getElementById("eventoHora")
+
+evento.style.display="block"
+
+setTimeout(()=>{
+
+evento.style.display="none"
+
+document.querySelector(".container").style.display="block"
+document.getElementById("simbolo").style.display="block"
+
+},15000)
+
+}
+
+},1000)
 
 </script>
 
