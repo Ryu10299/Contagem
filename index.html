@@ -1,170 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Protocolo : Ruína</title>
+<title>Contagem</title>
 
 <style>
-
 body{
-background:black;
-margin:0;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-font-family:"Courier New", monospace;
-overflow:hidden;
+    background:#000;
+    color:#5b0000;
+    font-family:Arial, Helvetica, sans-serif;
+    text-align:center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    flex-direction:column;
 }
 
-.container{
-text-align:center;
-color:#6b0000;
-filter:brightness(1.3);
-}
-
-#contador{
-font-size:60px;
-margin-bottom:20px;
+#contador1{
+    font-size:60px;
+    margin-bottom:20px;
 }
 
 #contador2{
-font-size:36px;
-margin-top:40px;
+    font-size:28px;
+    margin-top:20px;
 }
 
 .frase{
-font-size:24px;
-margin-top:10px;
+    font-size:22px;
+    margin-top:10px;
 }
 
 .frase2{
-font-size:24px;
-margin-top:15px;
+    font-size:18px;
+    margin-top:10px;
 }
 
-#simbolo{
-width:130px;
-margin-top:30px;
-opacity:0.5;
-animation:girar 32s linear infinite;
+img{
+    margin-top:20px;
+    width:120px;
+    animation:girar 6s linear infinite;
 }
 
 @keyframes girar{
-from{transform:rotate(0deg);}
-to{transform:rotate(360deg);}
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(720deg);}
 }
-
-#eventoHora{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:38px;
-color:#004b00;
-font-family:"Courier New", monospace;
-display:none;
-text-align:center;
-}
-
 </style>
-
 </head>
 
 <body>
 
-<div class="container">
-
-<div id="contador"></div>
+<div id="contador1"></div>
 
 <div class="frase">
-O Verissimo ainda não chegou, espere um pouco
+Sr. Verissimo está em reunião agora !! espere um pouco por favor
 </div>
 
 <div id="contador2"></div>
 
-<div class="frase2">
-Revelando Agentes
+<div id="episodio" class="frase2">
+Episódio 0,1 de D.W ( campanha Pré Ordem )
 </div>
 
-<img id="simbolo" src="simbolo.png">
-
-</div>
-
-<div id="eventoHora">
-Ele trouxe o Outro Lado pra cá
-</div>
+<img src="simbolo.png">
 
 <script>
 
-const dataRPG = new Date("May 3, 2026 14:00:00").getTime()
-const dataAgentes = new Date("March 14, 2026 18:00:00").getTime()
+const alvo1 = new Date("May 03, 2026 14:00:00").getTime();
+const alvo2 = new Date("March 22, 2026 14:00:00").getTime();
 
-function atualizarContadores(){
+const contador1 = document.getElementById("contador1");
+const contador2 = document.getElementById("contador2");
+const episodio = document.getElementById("episodio");
 
-let agora = new Date().getTime()
+setInterval(function(){
 
-let distancia = dataRPG - agora
+let agora = new Date().getTime();
 
-let dias = Math.floor(distancia/(1000*60*60*24))
-let horas = Math.floor((distancia%(1000*60*60*24))/(1000*60*60))
-let minutos = Math.floor((distancia%(1000*60*60))/(1000*60))
-let segundos = Math.floor((distancia%(1000*60))/1000)
+let dist1 = alvo1 - agora;
+let dist2 = alvo2 - agora;
 
-document.getElementById("contador").innerHTML =
-dias+"d "+horas+"h "+minutos+"m "+segundos+"s"
+let d = Math.floor(dist1/(1000*60*60*24));
+let h = Math.floor((dist1%(1000*60*60*24))/(1000*60*60));
+let m = Math.floor((dist1%(1000*60*60))/(1000*60));
+let s = Math.floor((dist1%(1000*60))/1000);
 
+contador1.innerHTML = d+"d "+h+"h "+m+"m "+s+"s";
 
-let dist2 = dataAgentes - agora
+if(dist2 > 0){
 
-let dias2 = Math.floor(dist2/(1000*60*60*24))
-let horas2 = Math.floor((dist2%(1000*60*60*24))/(1000*60*60))
-let minutos2 = Math.floor((dist2%(1000*60*60))/(1000*60))
-let segundos2 = Math.floor((dist2%(1000*60))/1000)
+let h2 = Math.floor((dist2%(1000*60*60*24))/(1000*60*60));
+let m2 = Math.floor((dist2%(1000*60*60))/(1000*60));
+let s2 = Math.floor((dist2%(1000*60))/1000);
 
-document.getElementById("contador2").innerHTML =
-dias2+"d "+horas2+"h "+minutos2+"m "+segundos2+"s"
+contador2.innerHTML = h2+"h "+m2+"m "+s2+"s";
 
-}
+}else{
 
-setInterval(atualizarContadores,1000)
-
-
-
-let ultimaHora = new Date().getHours()
-
-setInterval(()=>{
-
-let agora = new Date()
-
-if(
-agora.getHours()!=ultimaHora &&
-agora.getMinutes()==0
-){
-
-ultimaHora=agora.getHours()
-
-document.querySelector(".container").style.display="none"
-
-let evento=document.getElementById("eventoHora")
-
-evento.style.display="block"
-
-setTimeout(()=>{
-
-evento.style.display="none"
-document.querySelector(".container").style.display="block"
-
-},15000)
+contador2.innerHTML = "";
+episodio.innerHTML = "Vá para o Youtube da pagina para ver o Episódio 1 de D.W";
 
 }
 
-},1000)
+},1000);
 
 </script>
 
