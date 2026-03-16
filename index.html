@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>D.W</title>
+<title>Contagem</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 
@@ -10,29 +10,28 @@
 
 body{
     background:black;
-    color:#5b0000;
+    color:#6b0000;
     font-family:'Special Elite', monospace;
     text-align:center;
     display:flex;
     justify-content:center;
     align-items:center;
-    flex-direction:column;
     height:100vh;
+    flex-direction:column;
 }
 
-#contadorPrincipal{
-    font-size:65px;
+#contador1{
+    font-size:60px;
     margin-bottom:20px;
-}
-
-#contadorSecundario{
-    font-size:28px;
-    margin-top:20px;
 }
 
 .frase{
     font-size:22px;
-    margin-top:10px;
+    margin-bottom:40px;
+}
+
+#contador2{
+    font-size:28px;
 }
 
 .frase2{
@@ -43,7 +42,7 @@ body{
 img{
     width:120px;
     margin-top:20px;
-    animation:girar 8s linear infinite;
+    animation:girar 6s linear infinite;
 }
 
 @keyframes girar{
@@ -56,15 +55,15 @@ img{
 
 <body>
 
-<div id="contadorPrincipal"></div>
+<div id="contador1"></div>
 
 <div class="frase">
 Sr. Verissimo está em reunião agora !! espere um pouco por favor
 </div>
 
-<div id="contadorSecundario"></div>
+<div id="contador2"></div>
 
-<div id="textoEpisodio" class="frase2">
+<div id="episodio" class="frase2">
 Episódio 1 de D.W ( campanha Pré Ordem )
 </div>
 
@@ -72,46 +71,38 @@ Episódio 1 de D.W ( campanha Pré Ordem )
 
 <script>
 
-const dataPrincipal = new Date("May 3, 2026 14:00:00").getTime();
-const dataSecundaria = new Date("March 22, 2026 14:00:00").getTime();
+const alvoPrincipal = new Date("May 03, 2026 14:00:00").getTime();
+const alvoEpisodio = new Date("March 22, 2026 14:00:00").getTime();
 
-const contadorPrincipal = document.getElementById("contadorPrincipal");
-const contadorSecundario = document.getElementById("contadorSecundario");
-const textoEpisodio = document.getElementById("textoEpisodio");
+const contador1 = document.getElementById("contador1");
+const contador2 = document.getElementById("contador2");
+const episodio = document.getElementById("episodio");
 
 setInterval(function(){
 
 let agora = new Date().getTime();
 
-let tempo1 = dataPrincipal - agora;
-let tempo2 = dataSecundaria - agora;
+let distancia1 = alvoPrincipal - agora;
+let distancia2 = alvoEpisodio - agora;
 
-/* CONTADOR PRINCIPAL */
+let dias1 = Math.floor(distancia1/(1000*60*60*24));
+let horas1 = Math.floor((distancia1%(1000*60*60*24))/(1000*60*60));
+let segundos1 = Math.floor((distancia1%(1000*60))/1000);
 
-let dias = Math.floor(tempo1/(1000*60*60*24));
-let horas = Math.floor((tempo1%(1000*60*60*24))/(1000*60*60));
-let minutos = Math.floor((tempo1%(1000*60*60))/(1000*60));
-let segundos = Math.floor((tempo1%(1000*60))/1000);
+contador1.innerHTML = dias1+" dias "+horas1+" horas "+segundos1+" segundos";
 
-contadorPrincipal.innerHTML =
-dias+" dias "+horas+" horas "+minutos+" min "+segundos+" s";
+if(distancia2 > 0){
 
-/* CONTADOR SECUNDARIO */
+let dias2 = Math.floor(distancia2/(1000*60*60*24));
+let horas2 = Math.floor((distancia2%(1000*60*60*24))/(1000*60*60));
+let segundos2 = Math.floor((distancia2%(1000*60))/1000);
 
-if(tempo2 > 0){
-
-let dias2 = Math.floor(tempo2/(1000*60*60*24));
-let horas2 = Math.floor((tempo2%(1000*60*60*24))/(1000*60*60));
-let segundos2 = Math.floor((tempo2%(1000*60))/1000);
-
-contadorSecundario.innerHTML =
-dias2+" dias "+horas2+" horas "+segundos2+" s";
+contador2.innerHTML = dias2+" dias "+horas2+" horas "+segundos2+" segundos";
 
 }else{
 
-contadorSecundario.innerHTML="";
-textoEpisodio.innerHTML=
-"Vá para o Youtube da pagina para ver o Episódio 1 de D.W";
+contador2.innerHTML = "";
+episodio.innerHTML = "Vá para o Youtube da pagina para ver o Episódio 1 de D.W";
 
 }
 
